@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>edu.ucar.fin</groupId>
+  <artifactId>ssosample</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>ssosample Maven Webapp</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Servlet Library -->
+    <!-- http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Spring dependencies -->
+    <!-- http://mvnrepository.com/artifact/org.springframework/spring-core -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>4.1.4.RELEASE</version>
+    </dependency>
+
+    <!-- http://mvnrepository.com/artifact/org.springframework/spring-web -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>4.1.4.RELEASE</version>
+    </dependency>
+
+    <!-- http://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>4.1.4.RELEASE</version>
+    </dependency>
+
+    <!-- Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security.extensions</groupId>
+      <artifactId>spring-security-saml2-core</artifactId>
+      <version>1.0.0.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <!-- Miscellaneous Dependencies -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.3</version>
+      <scope>compile</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>ssosample</finalName>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>metadata/*</include>
+          <include>security/*</include>
+        </includes>
+      </resource>
+    </resources>
+
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.7.0</version>
+              <configuration>
+                  <source>1.8</source>
+                  <target>1.8</target>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                  <webResources>
+                      <resource>
+                          <filtering>true</filtering>
+                          <directory>src/main/webapp</directory>
+                          <includes>
+                              <include>**/*.xml</include>
+                          </includes>
+                      </resource>
+                  </webResources>
+              </configuration>
+          </plugin>
+
+
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.20.1</version>
+        </plugin>
+        <!-- SJW
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        -->
+
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+  </build>
+  <profiles>
+      <profile>
+          <id>test</id>
+          <properties>
+              <ssoSampleSamlKeystore>keystore.jks</ssoSampleSamlKeystore>
+              <ssoSampleSamlKey>keyAlias</ssoSampleSamlKey>
+              <!-- The passwords should be added to the maven settings file: ~/.m2/settings.xml -->
+              <ssoSampleSamlKeystorePW></ssoSampleSamlKeystorePW>
+              <ssoSampleSamlKeyPW></ssoSampleSamlKeyPW>
+              <websso.responseskew>60</websso.responseskew>
+              <metadataSp.fileName>clientmetadatafile_sp.xml</metadataSp.fileName>
+              <!-- Metadata file name for ResourceBackedMetadataProvider
+              <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+              -->
+              <!-- Metadata file name for HTTPMetadataProvider -->
+              <metadataIdp.fileName>https://adfs.test.ucar.edu/FederationMetadata/2007-06/FederationMetadata.xml</metadataIdp.fileName>
+          </properties>
+      </profile>
+  </profiles>
+</project>
